@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100">
 
         <div class="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen flex items-center justify-center p-6 relative" 
-             style="background-image: url('/gambar/gedung_lp3i.webp'); background-size: cover; background-position: center filter: blur(5px);">
+             style="background-image: url('/gambar/gedung.png'); background-size: cover; background-position: center filter: blur(5px);">
             
             <!-- <div class="absolute inset-0 bg-black "></div> -->
 
@@ -21,7 +21,7 @@
                     @csrf
                     
                     <div>
-                        <x-input-label for="email" :value="__('NIPD (Email)')" class="text-base font-semibold text-gray-700 mb-1" />
+                        <x-input-label for="email" :value="__('NIPD')" class="text-base font-semibold text-gray-700 mb-1" />
                         <x-text-input id="email" class="input-style block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Masukkan NIPD/Email Anda" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
@@ -42,11 +42,11 @@
                                 Forgot Password?
                             </a>
                         @endif
-                        @if (Route::has('register'))
+                        <!-- @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:underline">
                                 Register
                             </a>
-                        @endif
+                        @endif -->
                     </div>
                 </form>
             </div>
@@ -145,7 +145,7 @@
         </div>
         
         <p class="text-black leading-relaxed">
-            Untuk dapat mengakses fasilitas tersebut, mahasiswa harus melakukan login terlebih dahulu menggunakan User ID dan password masing-masing. Bagi mahasiswa yang belum dapat masuk ke E-Student, diharapkan untuk melakukan pendaftaran terlebih dahulu.
+            Untuk dapat mengakses fasilitas tersebut, mahasiswa harus melakukan login terlebih dahulu menggunakan NIPD dan password masing-masing. Bagi mahasiswa yang belum dapat masuk ke E-Student, diharapkan untuk melakukan pendaftaran terlebih dahulu.
         </p>
 
     </div>
