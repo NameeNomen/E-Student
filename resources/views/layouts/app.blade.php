@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         body{
             font-family:"poppins";
@@ -15,14 +15,33 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-100"  x-data="{ isSidebarOpen: false }">
+{{-- [RESPONSIVE] Menghapus x-data dari body, karena sudah ada di div di bawah --}}
+<body class="font-sans antialiased bg-gray-100">
 
-    {{-- KONTROL UTAMA ALPINE.JS --}}
-    <div x-data="{ isSidebarOpen: true }" class="min-h-screen">
+    {{-- [RESPONSIVE] Mengganti 'isSidebarOpen' menjadi 'isMobileSidebarOpen' dan default-nya 'false' --}}
+    <div x-data="{ isMobileSidebarOpen: false }" class="min-h-screen">
         
+        <!-- [RESPONSIVE] Menambahkan Overlay untuk mobile saat sidebar terbuka -->
+        <div 
+            x-show="isMobileSidebarOpen" 
+            @click="isMobileSidebarOpen = false" 
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-black/50 z-30 lg:hidden" 
+            style="display: none;"
+        ></div>
+
         {{-- 1. SIDEBAR (Fixed & Controlled) --}}
-        <aside x-bind:class="{ '-translate-x-full': !isSidebarOpen }" 
-            class="w-64 bg-[#4b2aad] text-white min-h-screen shadow-2xl fixed left-0 top-0 z-30 transform transition-transform duration-300"> 
+        {{-- [RESPONSIVE] Mengubah class untuk state default (mobile hidden, desktop visible) --}}
+        {{-- [RESPONSIVE] Mengubah x-bind untuk 'isMobileSidebarOpen' --}}
+        <aside 
+            x-bind:class="{ 'translate-x-0': isMobileSidebarOpen }" 
+            class="w-64 bg-[#4b2aad] text-white min-h-screen shadow-2xl fixed left-0 top-0 z-40 transform transition-transform duration-300 -translate-x-full lg:translate-x-0"
+        > 
 
             {{-- START: LOGO SECTION --}}
             <div class="p-4 border-b border-white/10">
@@ -178,10 +197,35 @@
         </aside>
 
         {{-- 2. KONTEN HALAMAN UTAMA (Bergeser ke Kanan) --}}
-        <main :class="{ 'ml-64': isSidebarOpen }" class="pt-6 transition-all duration-300">
-            {{ $slot }}
+        {{-- [RESPONSIVE] Menghapus binding :class dan pt-6. Menambahkan lg:ml-64 --}}
+        <main class="transition-all duration-300 lg:ml-64">
+            
+            <!-- [RESPONSIVE] Menambahkan Header Bar baru untuk toggle mobile -->
+            <header class="sticky top-0 bg-white shadow-sm p-4 z-20 border-b border-gray-200">
+                <div class="flex items-center">
+                    <!-- Tombol Hamburger (Hanya tampil di mobile) -->
+                    <button @click="isMobileSidebarOpen = !isMobileSidebarOpen" class="text-gray-700 p-2 rounded-md hover:bg-gray-200 lg:hidden">
+                        <i class="fas fa-bars w-6 h-6"></i>
+                    </button>
+                    
+                    <!-- Judul Halaman (Contoh) -->
+                    <h1 class="text-xl font-semibold text-gray-800 ml-3">
+                        Student Portal
+                    </h1>
+                </div>
+            </header>
+
+            <!-- [RESPONSIVE] Membungkus $slot dengan div baru untuk padding -->
+            <div class="p-6">
+                {{ $slot }}
+            </div>
+<div class="px-6 pb-6">
+                 <x-app-footer />
+            </div>
         </main>
+        
     </div>
+    
     @push('scripts')
 <script>
     function toggleDropdown(id) {
@@ -190,6 +234,18 @@
 
         if (!dropdown) return;
 
+        // Tutup dropdown lain yang mungkin terbuka
+        document.querySelectorAll('[id$="Dropdown"]').forEach(el => {
+            if (el.id !== id && !el.classList.contains('hidden')) {
+                el.classList.add('hidden');
+                const otherArrow = document.getElementById("arrow-" + el.id);
+                if (otherArrow) {
+                    otherArrow.classList.remove('rotate-180');
+                }
+            }
+        });
+
+        // Toggle dropdown saat ini
         dropdown.classList.toggle("hidden");
 
         if (arrow) {
@@ -200,5 +256,7 @@
 @endpush
 
     @stack('scripts')
+
+
 </body>
 </html>

@@ -11,51 +11,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center bg-green-500 p-4 sm:rounded ">
              {{-- INI TOMBOL TOGGLE-nya --}}
-             <button 
-    @click="isSidebarOpen = !isSidebarOpen" 
-    class="text-white hover:text-gray-900 focus:outline-none p-2 mr-4"
->
-
-    <!-- ICON KETIKA SIDEBAR TERTUTUP (MENU ICON) -->
-    <template x-if="!isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 21 21" 
-            fill="none" 
-            stroke="white"
-            stroke-linecap="round" 
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <!-- garis menu -->
-            <path d="M7.5 6 H15.5" />
-            <path d="M7.5 10 H12.5" />
-            <path d="M7.5 14 H15.5" />
-
-            <!-- bullet -->
-            <circle cx="4.5" cy="6" r="1" fill="white" />
-            <circle cx="4.5" cy="10" r="1" fill="white" />
-            <circle cx="4.5" cy="14" r="1" fill="white" />
-        </svg>
-    </template>
-
-    <!-- ICON KETIKA SIDEBAR TERBUKA (ARROW LEFT) -->
-    <template x-if="isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <path d="M15 6 L9 12 L15 18" />
-        </svg>
-    </template>
-
-</button>
+             >
 
 
              <h1 class="text-2xl font-extrabold text-white leading-tight">

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+}@layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+}

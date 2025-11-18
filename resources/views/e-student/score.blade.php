@@ -10,51 +10,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center bg-[#4b2aad] p-4 sm:rounded ">
              {{-- INI TOMBOL TOGGLE-nya --}}
-             <button 
-    @click="isSidebarOpen = !isSidebarOpen" 
-    class="text-white hover:text-gray-900 focus:outline-none p-2 mr-4"
->
-
-    <!-- ICON KETIKA SIDEBAR TERTUTUP (MENU ICON) -->
-    <template x-if="!isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 21 21" 
-            fill="none" 
-            stroke="white"
-            stroke-linecap="round" 
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <!-- garis menu -->
-            <path d="M7.5 6 H15.5" />
-            <path d="M7.5 10 H12.5" />
-            <path d="M7.5 14 H15.5" />
-
-            <!-- bullet -->
-            <circle cx="4.5" cy="6" r="1" fill="white" />
-            <circle cx="4.5" cy="10" r="1" fill="white" />
-            <circle cx="4.5" cy="14" r="1" fill="white" />
-        </svg>
-    </template>
-
-    <!-- ICON KETIKA SIDEBAR TERBUKA (ARROW LEFT) -->
-    <template x-if="isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <path d="M15 6 L9 12 L15 18" />
-        </svg>
-    </template>
-
-</button>
+             >
 
 
               <h1 class="text-2xl font-bold text-indigo-600 leading-tight">
@@ -113,14 +69,14 @@
                         @if ($report['id'] == 'summary')
                             <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
                                 <span>Academic Scores Profile Data</span>
-                                <a href="{{ route('score.index'], ['type' => 'academic-profile']) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                                <a href="{{ route('score.index', ['type' => 'academic-profile']) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
                             </div>
                         @else
                             @foreach ($semesters as $semester)
                                 <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
                                     <span>{{ $semester }}</span>
                                     {{-- Mengarahkan ke route detail dengan parameter semester --}}
-                                    <a href="{{ route('score.index'], ['semester' => explode(' ', $semester)[0]]) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                                    <a href="{{ route('score.index', ['semester' => explode(' ', $semester)[0]]) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
                                 </div>
                             @endforeach
                         @endif

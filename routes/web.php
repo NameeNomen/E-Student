@@ -60,6 +60,11 @@ Route::get('/krs', [KrsController::class, 'menu'])->name('krs.menu');
         return view('e-student.examCard'); 
     })->name('ujian.index'); // <--- COCOK
 
+    Route::get('/EditProfile', function () {
+        return view('e-student.EditProfile'); 
+    })->name('EditProfile.index');
+    
+
 });
 
 // 3. ROUTE OTENTIKASI BAWAAN BREEZE

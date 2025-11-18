@@ -10,51 +10,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center bg-indigo-600 p-4 sm:rounded ">
              {{-- INI TOMBOL TOGGLE-nya --}}
-             <button 
-    @click="isSidebarOpen = !isSidebarOpen" 
-    class="text-white hover:text-gray-900 focus:outline-none p-2 mr-4"
->
-
-    <!-- ICON KETIKA SIDEBAR TERTUTUP (MENU ICON) -->
-    <template x-if="!isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 21 21" 
-            fill="none" 
-            stroke="white"
-            stroke-linecap="round" 
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <!-- garis menu -->
-            <path d="M7.5 6 H15.5" />
-            <path d="M7.5 10 H12.5" />
-            <path d="M7.5 14 H15.5" />
-
-            <!-- bullet -->
-            <circle cx="4.5" cy="6" r="1" fill="white" />
-            <circle cx="4.5" cy="10" r="1" fill="white" />
-            <circle cx="4.5" cy="14" r="1" fill="white" />
-        </svg>
-    </template>
-
-    <!-- ICON KETIKA SIDEBAR TERBUKA (ARROW LEFT) -->
-    <template x-if="isSidebarOpen">
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-10 h-10"
-        >
-            <path d="M15 6 L9 12 L15 18" />
-        </svg>
-    </template>
-
-</button>
+             >
 
 
              <h1 class="text-2xl font-semibold text-white leading-tight flex items-center gap-3">
@@ -68,7 +24,7 @@
                 {{-- --- Payment Plans and Realizations Header --- --}}
                 <div class="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
                     <h2 class="text-xl font-medium text-gray-700">Payment Plans and Realizations</h2>
-                    <button class="print-button bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg font-semibold hover:border-indigo-500 hover:shadow-md transition duration-200">
+                    <button class="print-button bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg font-semibold hover:border-indigo-500 hover:shadow-md transition duration-300">
                         <i class="fas fa-print mr-2"></i> Print
                     </button>
                 </div>

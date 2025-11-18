@@ -154,7 +154,9 @@
                             </div>
                             <div class="p-5 h-[350px]">
                                 {{-- Canvas untuk Chart.js --}}
-                                <canvas id="ipkChart"></canvas>
+                
+                        <canvas id="gpaChart"></canvas>
+                    
                             </div>
                             <div class="p-5 border-t border-gray-100 bg-gray-50 rounded-b-xl">
                                 <p class="text-gray-700 font-medium">Current Cumulative GPA (IPK): <span class="text-2xl font-bold text-indigo-600">3.05</span></p>
@@ -188,59 +190,63 @@
         }
 
         // --- 2. Fungsi Inisialisasi Grafik IPK ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Pastikan canvas ada sebelum inisialisasi
-            const ctx = document.getElementById('ipkChart');
-            if (!ctx) return; 
-
-            const ipkData = {
-                labels: ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4 (Target)'],
-                datasets: [{
-                    label: 'GPA',
-                    data: [3.45, 2.90, 2.50, 3.00], // Data IPK Mockup
-                    borderColor: '#3b82f6', 
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#3b82f6',
-                    pointHoverRadius: 7,
-                }]
-            };
-
-            const ipkChart = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: ipkData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 4.0,
-                            ticks: { stepSize: 0.50 },
-                            title: { display: true, text: 'IPK' },
-                            grid: { color: '#e5e7eb' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Semesters' },
-                            grid: { display: false }
-                        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('gpaChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Sm 1', 'Sm 2', 'Sm 3', 'Sm 4', 'Sm 5', 'Sm 6'],
+                        datasets: [{
+                            label: 'IP Semester',
+                            data: [3.50, 3.75, 3.68, 3.80, 3.90, 3.85],
+                            backgroundColor: 'rgba(109, 40, 217, 0.1)',
+                            borderColor: '#4F46E5',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3, // Membuat garis melengkung
+                            pointBackgroundColor: '#4F46E5',
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                        }]
                     },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) { return ` IPK: ${context.formattedValue}`; }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 2.5,
+                                max: 4.0,
+                                ticks: {
+                                    stepSize: 0.25
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
                             },
-                            backgroundColor: '#3b82f6',
-                            titleFont: { size: 14, weight: 'bold' },
-                            bodyFont: { size: 12 }
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `IP: ${context.formattedValue}`;
+                                    }
+                                }
+                            }
+                        },
+                        hover: {
+                            mode: 'nearest',
+                            intersect: true
                         }
                     }
-                }
-            });
+                });
+            }
         });
+    
     </script>
     @endpush
 </x-app-layout>
