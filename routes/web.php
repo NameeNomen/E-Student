@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KrsController;
 use App\Http\Controllers\ScoresController;
+use App\Http\Controllers\TugasController;
+use App\Http\Controllers\TugasCardController;
 use Illuminate\Support\Facades\Route;
 
 // 1. ROUTE NON-OTENTIKASI (Wajib ADA)
@@ -63,8 +65,15 @@ Route::get('/krs', [KrsController::class, 'menu'])->name('krs.menu');
     Route::get('/EditProfile', function () {
         return view('e-student.EditProfile'); 
     })->name('EditProfile.index');
-    
 
+  // List semua mata kuliah
+Route::get('/tugas', [TugasController::class, 'index'])->name('tugas.index');
+
+Route::get('/tugas/{course_id}', [TugasCardController::class, 'detail'])
+     ->name('tugas.detail');
+
+Route::get('/tugas/kartu', [TaskController::class, 'showCard'])->name('tugas.card');
+Route::post('/tugas/submit/{id}', [TaskController::class, 'submitTask'])->name('tugas.submit');
 });
 
 // 3. ROUTE OTENTIKASI BAWAAN BREEZE

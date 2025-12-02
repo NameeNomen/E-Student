@@ -1,32 +1,497 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-    b{
-        color: black;
-        font: 200;
-        font-family: Georgia, 'Times New Roman', Times, serif;
-    }
-    div{
-        background-color: aqua;
-        border-radius: 10px;
-        width: 150px;
-        height: 200px;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard User Friendly</title>
+    
+    <!-- Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --primary-color: #be185d; /* Pink Rose */
+            --primary-light: #fce7f3;
+            --text-dark: #374151;
+            --text-gray: #9ca3af;
+            --bg-body: #f3f4f6;
+            --white: #ffffff;
+            --sidebar-width: 260px;
+            --header-height-mobile: 70px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row; /* Default Desktop: Row */
+        }
+
+        /* --- SIDEBAR STYLING (DESKTOP DEFAULT) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e5e7eb;
+            transition: var(--transition);
+        }
+
+        /* Logo Area (Desktop Sidebar) */
+        .logo-area {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu List */
+        .menu-list {
+            list-style: none;
+            padding: 20px 16px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            margin-bottom: 8px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .menu-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            color: var(--text-gray);
+            transition: var(--transition);
+        }
+
+        /* Hover & Active State */
+        .menu-link:hover, .menu-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .menu-link:hover i, .menu-link.active i {
+            color: var(--primary-color);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        /* --- TOP BAR (HEADER) --- */
+        .top-bar {
+            background: var(--white);
+            padding: 15px 24px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Logo (Hidden on Desktop) */
+        .mobile-logo {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: none; /* Sembunyi di Desktop */
+            padding: 5px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info-text {
+            text-align: right;
+        }
+
+        .user-img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            object-fit: cover;
+        }
+
+        /* --- CARDS --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card-icon {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        
+        .bg-pink { background: #fce7f3; color: #be185d; }
+        .bg-blue { background: #dbeafe; color: #2563eb; }
+        .bg-green { background: #dcfce7; color: #16a34a; }
+
+        /* --- RESPONSIVE MOBILE CSS (Max-width: 768px) --- */
+        @media screen and (max-width: 768px) {
+            
+            body {
+                flex-direction: column; /* Ubah layout jadi atas-bawah */
+            }
+
+            /* 1. HEADER MOBILE (Top Bar berubah jadi Header Fixed) */
+            .top-bar {
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                height: var(--header-height-mobile);
+                border-radius: 0; /* Full width, kotak */
+                margin-bottom: 0;
+                z-index: 1001; /* Di atas sidebar */
+                padding: 0 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .mobile-logo {
+                display: flex; /* Munculkan logo di header */
+            }
+            .mobile-logo .logo-icon { width: 32px; height: 32px; font-size: 16px; }
+            .mobile-logo .logo-text { font-size: 16px; }
+
+            .user-info-text { display: none; /* Sembunyikan nama panjang di HP */ }
+            
+            .toggle-btn {
+                display: block;
+                color: var(--primary-color);
+            }
+
+            /* 2. SIDEBAR (MENU DROPDOWN) */
+            .sidebar {
+                position: fixed;
+                top: var(--header-height-mobile); /* Mulai di bawah header */
+                left: 0;
+                width: 100%; /* Lebar penuh */
+                height: auto; /* Tinggi otomatis sesuai isi */
+                max-height: 0; /* Default tertutup */
+                overflow: hidden;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            /* Logo area dalam sidebar disembunyikan karena sudah ada di header */
+            .sidebar .logo-area {
+                display: none;
+            }
+
+            /* Saat sidebar aktif (Toggle diklik) */
+            .sidebar.active {
+                max-height: 80vh; /* Dropdown kebuka */
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .menu-list {
+                padding: 10px 20px; /* Padding menu di HP */
+            }
+
+            .sidebar-footer {
+                padding: 10px 20px 20px 20px;
+            }
+
+            /* 3. MAIN CONTENT */
+            .main-content {
+                margin-left: 0;
+                margin-top: var(--header-height-mobile); /* Dorong konten ke bawah */
+                padding: 20px;
+            }
+
+            /* Overlay Gelap di belakang menu */
+            .overlay {
+                position: fixed;
+                top: var(--header-height-mobile);
+                left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
-    <div>
-            <p>
-        <b>NAJWA CANTIK MASYAALLAH ALLAHUAKBAR TAKBIR</b> 
-    </p>
 
-    </div>
+    <!-- OVERLAY (Mobile Background Gelap) -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    
+    <!-- HEADER / TOP BAR (Berfungsi sebagai Header HP juga) -->
+    <header class="top-bar">
+        <!-- Logo Mobile (Hanya muncul di HP) -->
+        <div class="mobile-logo">
+            <div class="logo-icon">
+                <i class="fas fa-shapes"></i>
+            </div>
+            <span class="logo-text">MyCampus</span>
+        </div>
+
+        <!-- User Profile -->
+        <div class="user-profile" style="margin-left: auto; margin-right: 15px;">
+            <div class="user-info-text">
+                <h4 class="text-sm font-bold text-gray-800">Clara Putri</h4>
+                <p class="text-xs text-gray-500">Mahasiswa</p>
+            </div>
+            <img src="https://ui-avatars.com/api/?name=Clara+Putri&background=be185d&color=fff" alt="User" class="user-img">
+        </div>
+
+        <!-- Toggle Button (Hamburger di Kanan) -->
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- SIDEBAR (Menu Kiri di Desktop, Dropdown di HP) -->
+    <nav class="sidebar" id="sidebar">
+        <!-- Logo Area (Hanya muncul di Desktop) -->
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-shapes"></i>
+            </div>
+            <span class="logo-text">MyCampus</span>
+        </div>
+
+        <!-- Menu List -->
+        <ul class="menu-list">
+            <li class="menu-item">
+                <a href="#" class="menu-link active" onclick="setActive(this)">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" onclick="setActive(this)">
+                    <i class="fas fa-book-open"></i>
+                    <span>Mata Kuliah</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" onclick="setActive(this)">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tugas Saya</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" onclick="setActive(this)">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Jadwal Kuliah</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" onclick="setActive(this)">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Nilai & IPK</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <a href="#" class="menu-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="main-content">
+        
+        <!-- Welcome Text (Hanya untuk Desktop karena Header sudah ada nama) -->
+        <div class="hidden md:block mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Overview Akademik</h2>
+            <p class="text-sm text-gray-500">Ringkasan aktivitas perkuliahan Anda.</p>
+        </div>
+
+        <!-- Kartu Statistik -->
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon bg-pink">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800">12</h3>
+                    <p class="text-sm text-gray-500">Tugas Menunggu</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon bg-blue">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800">6</h3>
+                    <p class="text-sm text-gray-500">Mata Kuliah</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon bg-green">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800">3.85</h3>
+                    <p class="text-sm text-gray-500">IPK Sementara</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Area Konten (Contoh Tabel) -->
+        <div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 class="text-lg font-bold text-gray-800">Jadwal Hari Ini</h3>
+                <button style="border: none; background: #fce7f3; color: #be185d; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                    Lihat Semua
+                </button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee;">
+                    <div style="width: 50px; text-align: center;">
+                        <span style="font-size: 12px; font-weight: bold; display: block;">08:00</span>
+                        <span style="font-size: 10px; color: #9ca3af;">WIB</span>
+                    </div>
+                    <div style="width: 4px; height: 40px; background: #be185d; border-radius: 4px;"></div>
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Pemrograman Web Lanjut</h4>
+                        <p style="font-size: 12px; color: #6b7280;">Ruang Lab 3 • Pak Budi</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 50px; text-align: center;">
+                        <span style="font-size: 12px; font-weight: bold; display: block;">10:30</span>
+                        <span style="font-size: 10px; color: #9ca3af;">WIB</span>
+                    </div>
+                    <div style="width: 4px; height: 40px; background: #3b82f6; border-radius: 4px;"></div>
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Basis Data II</h4>
+                        <p style="font-size: 12px; color: #6b7280;">Ruang Teori 5 • Bu Siti</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        // Toggle Sidebar untuk Mobile
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Tutup Sidebar
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // Set Menu Aktif
+        function setActive(element) {
+            const links = document.querySelectorAll('.menu-link');
+            links.forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+
+            // Jika di mobile, tutup sidebar setelah klik menu
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
+        }
+    </script>
+
 </body>
 </html>
