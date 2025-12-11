@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KrsController;
-use App\Http\Controllers\ScoresController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\TugasCardController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\lihatProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 // 1. ROUTE NON-OTENTIKASI (Wajib ADA)
@@ -14,11 +16,6 @@ Route::get('/', function () {
 
 // 2. ROUTE OTENTIKASI
 Route::middleware('auth')->group(function () {
-    
-    // A. ROUTE PROFILE BREEZE (WAJIB ADA)
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // B. DASHBOARD KUSTOM
     Route::get('/dashboard', function () {
@@ -47,15 +44,16 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/krs', [KrsController::class, 'menu'])->name('krs.menu');
 
-    Route::get('/materials', function () {
-        return view('e-student.materi'); 
-    })->name('materials.index'); // <--- COCOK
+    Route::get('/materi', [MateriController::class, 'index'])->name('materi');
 
     Route::get('/announcements', function () {
         return view('e-student.pengumuman'); 
     })->name('announcements.index'); // <--- COCOK
 
-    Route::get('/score', [ScoresController::class, 'index'])->name('score.index');
+    Route::get('/lihatProfile', [lihatProfileController::class, 'index'])->name('lihatProfile.index');
+    Route::post('/lihatProfile', [lihatProfileController::class, 'store'])->name('lihatProfile.store');
+   
+    Route::get('/score', [ScoreController::class, 'index'])->name('score');
 
     // Route Exam Card yang dipanggil di header Academic Data
     Route::get('/ujian', function () {

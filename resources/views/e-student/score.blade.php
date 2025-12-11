@@ -1,159 +1,142 @@
-<x-app-layout>
-    
-    {{-- Slot Header Breeze untuk Judul Halaman --}}
-    <x-slot name="header">
-       
-    </x-slot>
+@extends('layouts.app')
 
-    {{-- Main Content Container --}}
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex items-center bg-[#4b2aad] p-4 sm:rounded ">
-             {{-- INI TOMBOL TOGGLE-nya --}}
-             >
+@section('content')
+<div class="py-8 bg-gray-50 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="space-y-8">
 
-
-              <h1 class="text-2xl font-bold text-white leading-tight">
-            {{ __('Scores') }}
-        </h1></div><br>            
-
-            <div class="scores-container bg-white rounded-xl shadow-xl p-4 sm:p-6">
-                
-                <!-- <h1 class="text-3xl font-bold text-indigo-600 border-b-2 border-gray-200 pb-3 mb-6">Scores</h1> -->
-
-                {{-- Data Semester Mockup --}}
-                @php
-                    $semesters = ['1 SEMESTER', '2 SEMESTER', '3 SEMESTER'];
+            {{-- ========================================== --}}
+            {{-- BAGIAN 1: SUMMARY (TEAL CARD) --}}
+            {{-- Penekanan pada bentuk tebal --}}
+            {{-- ========================================== --}}
+            <div x-data="{ summaryOpen: true }" class="rounded-2xl shadow-lg overflow-hidden border border-gray-100 bg-white">
+                <button type="button" 
+                        @click="summaryOpen = !summaryOpen" 
+                        class="relative w-full text-left p-6 sm:p-8 {{ $summary['bg_color'] }} focus:outline-none transition-colors group cursor-pointer">
                     
-                    $reports = [
-                        [
-                            'id' => 'component',
-                            'title' => 'Component Scores',
-                            'bg_color' => 'bg-[#4b2aad]', // Dibuat custom untuk mendekati #8A2BE2
-                            'button_class' => 'detail-button bg-yellow-300 text-gray-800 border-yellow-300 hover:bg-transparent hover:text-gray-800  p-2 sm:rounded',
-                            'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>',
-                            'detail_route' => 'scores.detail',
-                        ],
-                        [
-                            'id' => 'khs',
-                            'title' => 'Study Result Card (KHS)',
-                            'bg_color' => 'bg-red-600',
-                            'button_class' => 'detail2-button bg-pink-500 text-white border-pink-500 hover:bg-transparent hover:text-red-700 p-2 sm:rounded',
-                            'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
-                            'detail_route' => 'khs.detail',
-                        ],
-                        [
-                            'id' => 'summary',
-                            'title' => 'Summary Of Academic Profile Data',
-                            'bg_color' => 'bg-blue-500',
-                            'button_class' => 'detail3-button bg-indigo-500 text-white border-indigo-500 hover:bg-transparent hover:text-indigo-500 p-2 sm:rounded',
-                            'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21.42 10.922a1 1 1 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>',
-                            'detail_route' => 'summary.detail',
-                        ],
-                    ];
-                @endphp
-
-                {{-- Looping untuk menampilkan setiap kartu laporan nilai --}}
-                @foreach ($reports as $report)
-                    <div class="header-box {{ $report['bg_color'] }} text-white px-5 py-3 flex flex-wrap justify-between items-center rounded-t-lg font-bold mt-6 cursor-pointer" onclick="toggleCollapse('{{ $report['id'] }}', this)">
-                        <div class="header-title flex items-center gap-3">
-                            {!! $report['icon_svg'] !!} {{-- Menggunakan {!! !!} untuk SVG HTML --}}
-                            {{ $report['title'] }}
-                        </div>
-                        <button class="collapse-btn" data-target="{{ $report['id'] }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                        </button>
+                    {{-- POLA GEOMETRIC (OPACITY Disesuaikan) --}}
+                    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-50"> {{-- Opacity total dikurangi sedikit --}}
+                        
+                        {{-- GARIS TIPIS (DIAGONAL) --}}
+                        <div class="absolute right-[20%] -top-[50%] w-6 h-[200%] bg-white transform rotate-45 shadow-lg z-10 opacity-10"></div>
+                        
+                        {{-- BENTUK TEBAL (Besar Kanan Bawah) --}}
+                        <div class="absolute -bottom-16 -right-16 w-32 h-32 bg-white rounded-full opacity-60"></div>
+                        
+                        {{-- BENTUK TEBAL (Kecil Kiri Bawah) --}}
+                        <div class="absolute bottom-4 left-4 w-12 h-12 bg-white rounded-full opacity-30"></div>
+                        
+                        {{-- BENTUK (Tengah Penghubung) --}}
+                        <div class="absolute bottom-4 left-4 w-40 h-20 bg-white rounded-full opacity-20 transform -rotate-12"></div>
                     </div>
 
-                    <div class="semester-list-container transition-all duration-500 ease-in-out" id="{{ $report['id'] }}">
-                        @if ($report['id'] == 'summary')
-                            <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
-                                <span>Academic Scores Profile Data</span>
-                                <a href="{{ route('score.index', ['type' => 'academic-profile']) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                    <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex items-center gap-5">
+                            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm shadow-inner">
+                                {!! $summary['icon'] !!}
                             </div>
-                        @else
-                            @foreach ($semesters as $semester)
-                                <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
-                                    <span>{{ $semester }}</span>
-                                    {{-- Mengarahkan ke route detail dengan parameter semester --}}
-                                    <a href="{{ route('score.index', ['semester' => explode(' ', $semester)[0]]) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white tracking-wide">{{ $summary['title'] }}</h3>
+                                <p class="text-teal-50 text-sm font-medium mt-1">{{ $summary['subtitle'] }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300"
+                             :class="summaryOpen ? 'rotate-180 bg-white/30' : ''">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </button>
+
+                <div x-show="summaryOpen" x-collapse class="bg-white">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-gray-600 max-w-lg">
+                            <p>Lihat detail lengkap mengenai Indeks Prestasi (IP), IPK, dan transkrip nilai akademik Anda secara keseluruhan.</p>
+                        </div>
+                        
+                        <a href="{{ route('score', ['type' => 'academic-profile']) }}" 
+                           class="w-full md:w-auto px-8 py-3 rounded-xl font-bold shadow-lg transform transition hover:scale-105 hover:shadow-xl text-center {{ $summary['btn_color'] }}">
+                            Lihat Profile Lengkap
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- ========================================== --}}
+            {{-- BAGIAN 2: GRID (COMPONENT & KHS CARDS) --}}
+            {{-- Penekanan pada bentuk tebal --}}
+            {{-- ========================================== --}}
+            
+            <div class="space-y-6"> 
+                @foreach ($gridData as $report)
+                    <div x-data="{ open_{{ $report['id'] }}: false }" 
+                         class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col hover:shadow-xl transition-shadow duration-300">
+                        
+                        <button type="button" 
+                                @click="open_{{ $report['id'] }} = !open_{{ $report['id'] }}" 
+                                class="relative w-full text-left p-6 {{ $report['bg_color'] }} focus:outline-none cursor-pointer">
+                            
+                            {{-- POLA GEOMETRIC (OPACITY Disesuaikan) --}}
+                            <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+                                
+                                {{-- GARIS TIPIS (DIAGONAL) --}}
+                                <div class="absolute right-[20%] -top-[50%] w-6 h-[200%] bg-white transform rotate-45 shadow-lg z-10 opacity-10"></div>
+                                
+                                {{-- BENTUK TEBAL (Kotak Besar Miring) --}}
+                                <div class="absolute -right-[10%] top-[10%] w-20 h-20 bg-white rounded-xl transform rotate-45 opacity-40"></div>
+                                
+                                {{-- BENTUK TEBAL (Kotak Kecil Outline) --}}
+                                <div class="absolute right-[18%] bottom-[10%] w-14 h-14 border-2 border-white/20 rounded-lg transform rotate-12 z-10 opacity-30"></div>
+                                
+                                {{-- Floating Square Kecil --}}
+                                <div class="absolute right-[5%] -top-[10%] w-6 h-6 bg-white/30 rounded transform rotate-45 z-0"></div>
+                            </div>
+
+                            <div class="relative z-10 flex justify-between items-start">
+                                <div class="flex items-center gap-4">
+                                    <div class="p-2.5 bg-white/20 rounded-xl backdrop-blur-sm shadow-inner">
+                                        {!! $report['icon'] !!}
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white leading-tight shadow-black drop-shadow-md pr-2">{{ $report['title'] }}</h3>
+                                        <p class="text-white/80 text-xs mt-1 uppercase tracking-wider font-semibold">{{ $report['subtitle'] }}</p>
+                                    </div>
                                 </div>
-                            @endforeach
-                        @endif
+                                
+                                <div class="flex-shrink-0 p-1.5 rounded-full bg-white/20 transition-transform duration-300"
+                                     :class="open_{{ $report['id'] }} ? 'rotate-180 bg-white/30' : ''">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                        </button>
+
+                        <div x-show="open_{{ report['id'] }}" x-collapse class="bg-gray-50/50 border-t border-gray-100">
+                            <div class="p-5 space-y-3">
+                                @foreach ($semesters as $semester)
+                                    <div class="bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 hover:border-gray-300 transition-colors group">
+                                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                                            <div class="w-1.5 h-1.5 rounded-full {{ $report['bg_color'] }} group-hover:scale-150 transition-transform"></div>
+                                            <span class="font-bold text-gray-700 text-sm sm:text-base">{{ $semester }}</span>
+                                        </div>
+                                        
+                                        @php $semNum = explode(' ', $semester)[0]; @endphp
+
+                                        <a href="{{ route('score', ['type' => $report['id'], 'semester' => $semNum]) }}" 
+                                           class="w-full sm:w-auto text-center px-4 py-2 rounded-lg text-xs font-bold shadow-sm transition-transform active:scale-95 {{ $report['btn_color'] }}">
+                                            Lihat Detail
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="h-1 w-full {{ $report['bg_color'] }} opacity-20"></div>
+                        </div>
                     </div>
                 @endforeach
-
             </div>
+
         </div>
     </div>
-
-    {{-- Memasukkan CSS Kustom dan JavaScript --}}
-    @push('styles')
-    <style>
-        /* CSS Tambahan untuk transition collapse */
-        .semester-list-container {
-            padding: 0 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-height: 0;
-            /* Kita gunakan cubic-bezier dari kode asli untuk smooth collapse */
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease; 
-        }
-
-        .semester-list-container.open {
-            max-height: 600px; /* Nilai besar agar konten pasti termuat */
-            padding-bottom: 15px;
-        }
-        
-        /* Rotasi Ikon */
-        .collapse-btn.open svg {
-             transform: rotate(180deg);
-        }
-    </style>
-    @endpush
-
-    @push('scripts')
-    <script>
-        // FUNGSI JAVASCRIPT UNTUK COLLAPSE
-        window.toggleCollapse = function(targetId, buttonElement) {
-            const target = document.getElementById(targetId);
-            const btn = buttonElement.querySelector('.collapse-btn') || buttonElement;
-            
-            // Toggle kelas 'open' pada tombol dan target konten
-            btn.classList.toggle("open");
-            target.classList.toggle("open");
-
-            // Logika untuk mengatur max-height (agar transisi CSS berjalan halus)
-            if (target.classList.contains("open")) {
-                // Buka: Atur max-height ke scrollHeight agar transisi terlihat penuh
-                target.style.maxHeight = target.scrollHeight + "px";
-            } else {
-                // Tutup: Kembalikan max-height ke 0
-                target.style.maxHeight = '0';
-            }
-        };
-
-        // PENTING: Inisialisasi status awal saat DOM siap
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tutup semua container secara default
-            document.querySelectorAll(".semester-list-container").forEach(container => {
-                container.style.maxHeight = '0';
-                container.classList.remove('open');
-            });
-            // Hapus rotasi ikon awal
-            document.querySelectorAll(".collapse-btn").forEach(btn => {
-                btn.classList.remove('open');
-            });
-        });
-
-        // Hubungkan kembali event listener ke tombol (jika ada tombol terpisah)
-        document.querySelectorAll(".collapse-btn").forEach(btn => {
-             // Pastikan klik pada tombol juga memicu toggle (untuk kompatibilitas)
-             btn.addEventListener("click", () => {
-                 const target = document.getElementById(btn.dataset.target);
-                 window.toggleCollapse(btn.dataset.target, btn.closest('.header-box'));
-             });
-        });
-    </script>
-    @endpush
-</x-app-layout>
+</div>
+@endsection
