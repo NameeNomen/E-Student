@@ -24,13 +24,13 @@ class lihatProfileController extends Controller
         ]);
 
         // 2. LOGIKA UPLOAD FOTO (Bagian Paling Penting)
-        if ($request->hasFile('photo')) {
-            // Simpan file ke folder: storage/app/public/profile-photos
-            $path = $request->file('photo')->store('profile-photos', 'public');
+        // if ($request->hasFile('photo')) {
+        //     // Simpan file ke folder: storage/app/public/profile-photos
+        //     $path = $request->file('photo')->store('profile-photos', 'public');
 
-            // Simpan alamat file ke session biar bisa dipanggil di View
-            session(['dummy_photo_path' => $path]);
-        }
+        //     // Simpan alamat file ke session biar bisa dipanggil di View
+        //     session(['dummy_photo_path' => $path]);
+        // }
 
         return redirect()->route('lihatProfile.index')->with('success', 'Profil berhasil diperbarui!');
     }
